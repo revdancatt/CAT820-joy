@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>Joy</title>
+    <style>
+
+    body, html {
+        margin: 0;
+        border: 0;
+        width: 100%;
+        height: 100%;
+        background: black;
+    }
+    .holder {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+    #processing_target {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -320px;
+        margin-top: -320px;
+    }
+    </style>
+</head>
+<body>
+
+    <script src="js/jquery-1.8.1.min.js"></script> 
+    <script src="js/processing-1.4.1.min.js"></script> 
+    <script src="js/control.js?v=0.0"></script> 
+
+    <div class="holder">
+        <canvas datasrc="js/processing.code.js?v=0.0" id="processing_target"></canvas>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        control.init();
+      });
+    </script>
+
+</body>
+</html>
