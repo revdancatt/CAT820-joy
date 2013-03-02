@@ -26,6 +26,11 @@ void setup()
   strokeWeight(1);
   offset = 0.1;
 
+  if (control.happy) {
+    colorMode(HSB, 100);
+    fill(0, 0, 6);
+  }
+
 }
 
 
@@ -35,13 +40,21 @@ void draw()
   if (control.paused == false) {
 
     
-    background(16, 16, 16);   // Set the background to black
+    if (control.happy) {
+      background(0, 0, 6);   // Set the background to black
+    } else {
+      background(16, 16, 16);   // Set the background to black
+    }
 
     var newTop = 0;
     var newLeft = 0;
     var noiseTop = 0;
 
     for (var i = 0; i < lines; i++) {
+
+      if (control.happy) {
+        stroke(i/lines*100, 100, 100);
+      }
 
       newTop = (((middle.bottom - middle.top) / lines) * i) + middle.top;
 

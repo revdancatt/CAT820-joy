@@ -1,10 +1,16 @@
 control = {
     
     paused: false,
+    happy: false,
+
     y: 0,
 
     init: function() {
         //utils.log('Here!');
+        if (utils.getURLParameter('happy') !== null && utils.getURLParameter('happy') == 1) {
+            this.happy = true;
+        }
+
     }
 
 }
@@ -17,5 +23,10 @@ utils = {
         } catch(er) {
             //  Do Nowt.
         }
+    },
+
+    getURLParameter: function(name) {
+        return decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1])
     }
+
 }
