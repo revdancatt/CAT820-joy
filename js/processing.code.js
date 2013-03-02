@@ -22,7 +22,7 @@ void setup()
 
   smooth();
   stroke(255);
-  fill(20, 20, 20);
+  fill(16, 16, 16);
   strokeWeight(1);
   offset = 0.1;
 
@@ -35,7 +35,7 @@ void draw()
   if (control.paused == false) {
 
     
-    background(20, 20, 20);   // Set the background to black
+    background(16, 16, 16);   // Set the background to black
 
     var newTop = 0;
     var newLeft = 0;
