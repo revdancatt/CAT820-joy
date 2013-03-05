@@ -25,6 +25,7 @@ control = {
     fft: [],
     fftTmr: null,
     paused: false,
+    tick: 1,
 
     init: function() {
 
@@ -149,7 +150,16 @@ control = {
         var time = Math.round((30 - control.dancer.getTime()) * 100) / 100;
 
         if (time < 10) time = '0' + time;
-        $('.pause').text('pause: 0:' + time);
+        if (time == '30') {
+            if (control.tick == 1) $('.pause').text('pause: loading.');
+            if (control.tick == 2) $('.pause').text('pause: loading..');
+            if (control.tick == 3) $('.pause').text('pause: loading...');
+        } else {
+            $('.pause').text('pause: 0:' + time);
+        }
+
+        control.tick++;
+        if (control.tick > 3) control.tick = 1;
 
         //  if it has finished then swap everything back round
         //  and start the timer that'll turn the random noise back on
