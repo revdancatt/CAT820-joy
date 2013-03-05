@@ -39,6 +39,7 @@ control = {
             this.dancer = new Dancer();
             this.dancer.load({ src: 'snd/disorder30s', codecs: [ 'ogg', 'mp3' ]});
             $('.play').removeClass('hidden');
+            $('.music').removeClass('hidden');
         }
 
         //  add the clicks to the controls
