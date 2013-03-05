@@ -43,10 +43,10 @@ control = {
         }
 
         //  add the clicks to the controls
-        $('.play').on('click', function() { control.startPlaying(); });
-        $('.mono').on('click', function() { control.happy = false; });
-        $('.colour').on('click', function() { control.happy = true; });
-        $('.pause').on('click', function() { 
+        $('.play').on('mouseup', function() { control.startPlaying(); });
+        $('.mono').on('mouseup', function() { control.happy = false; });
+        $('.colour').on('mouseup', function() { control.happy = true; });
+        $('.pause').on('mouseup', function() { 
             if (control.paused) {
                 control.dancer.play();
                 control.paused = false;
@@ -64,6 +64,7 @@ control = {
         //  Turn the timer off that'd restart the random noise
         clearTimeout(this.restartRandomTmr);
         control.resetting = false;
+        control.paused = false;
 
         //  empty out the line data and fill it with zeros
         this.lineData = [];
