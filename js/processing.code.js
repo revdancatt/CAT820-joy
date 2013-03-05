@@ -9,28 +9,15 @@ void setup()
     left: width / 100 * 27,
     right: width - (width / 100 * 27)
   };
-  //lines = 90;
-  lines = 45;
-  subdivisions = 40;
-
-  dampen = [
-              0.01, 0.02, 0.03, 0.04, 0.04, 0.05, 0.05, 0.06, 0.08, 0.11,
-              0.20, 0.35, 0.42, 0.85, 0.95, 1, 1, 0.70, 0.70, 0.70,
-              0.55, 0.70, 0.80, 0.55, 0.50, 0.45, 0.35, 0.20, 0.16, 0.11,
-              0.11, 0.08, 0.06, 0.05, 0.05, 0.04, 0.04, 0.03, 0.02, 0.01
-            ]
 
   smooth();
   stroke(255);
-  fill(16, 16, 16);
   strokeWeight(1);
-  offset = 0.1;
 
+  fill(16, 16, 16);
   if (control.happy) {
-    colorMode(HSB, 100);
     fill(0, 0, 6);
   }
-
 }
 
 
@@ -39,48 +26,80 @@ void draw()
   
   if (control.paused == false) {
 
-    
+    //  set the colour mode
     if (control.happy) {
+      colorMode(HSB, 100);
       background(0, 0, 6);   // Set the background to black
     } else {
+      stroke(255);
+      colorMode(RGB, 255);
       background(16, 16, 16);   // Set the background to black
     }
 
+    //  we'll be using these in a moment
     var newTop = 0;
     var newLeft = 0;
     var noiseTop = 0;
 
-    for (var i = 0; i < lines; i++) {
+    //  go down each of the lines starting at the top and
+    //  working down.
+    for (var i = 0; i < control.lines; i++) {
 
+      //  if we are happy set the stroke colour
       if (control.happy) {
-        stroke(i/lines*100, 100, 100);
+        stroke(i/control.lines*100, 100, 100);
       }
 
-      newTop = (((middle.bottom - middle.top) / lines) * i) + middle.top;
+      //  work out how far down this line should be drawn
+      newTop = (((middle.bottom - middle.top) / control.lines) * i) + middle.top;
 
+
+      //  draw it
       beginShape();
 
       curveVertex(middle.left, newTop);
       curveVertex(middle.left, newTop);
 
-      for (var x = 1; x < subdivisions; x++) {
+      //  If we are being all random do the 1st option, but if we are
+      //  tracking music, then do the 2nd option which is tracking the
+      //  music
+      if (!control.audioPlaying) {
+        for (var x = 1; x < control.subdivisions; x++) {
 
-        newLeft = middle.left + ((middle.right - middle.left) / subdivisions * x);
+          //  draw the line, dampening it according to our great plan.
+          newLeft = middle.left + ((middle.right - middle.left) / control.subdivisions * x);
+          noiseTop = noise(newLeft, newTop+control.offset) * 100 * control.dampen[x-1];
+          curveVertex(newLeft, newTop - noiseTop);
 
-        noiseTop = noise(newLeft, newTop+offset) * 100 * dampen[x-1];
+        }
+      } else {
+        for (var x = 1; x < control.subdivisions; x++) {
 
-        curveVertex(newLeft, newTop - noiseTop);
+          //  pull the (already dampened) data from the line data
+          //  that has been stored based on the spectrum stuff.
+          newLeft = middle.left + ((middle.right - middle.left) / control.subdivisions * x);
+          noiseTop = control.lineData[i][x-1];
+          curveVertex(newLeft, newTop - noiseTop);
+
+        }
+
       }
 
+      //  finish off the shape.
       curveVertex(middle.right, newTop);
       curveVertex(middle.right, newTop);
 
       endShape();
 
-      offset+=0.0025;
-      //control.paused = true;
-
     }
+
+    //  move all the lines down
+    if (control.audioPlaying) {
+      control.popLines();
+    }
+    
+    //  adjust the offset which *wiggles* the random lines.
+    control.offset+=0.1;
     
   }
 
