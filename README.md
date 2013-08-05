@@ -1,6 +1,6 @@
 ![Cover Screenshot](https://raw.github.com/revdancatt/CAT820-joy/master/img/joy.png)
 
-CAT820-joy
+CAT820 joy
 ==========
 Joy Division Cover in processing.js, code is running here: http://revdancatt.github.com/CAT820-joy/
 
